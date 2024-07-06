@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { onBeforeMount, ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { Product, Loader } from "components";
 import { TLoadingState, TProduct } from "types.ts";
 
-let products: TProduct[];
+const products = ref<TProduct[]>();
 const loadingState = ref<TLoadingState>("loading");
 
-onBeforeMount(async () => {
+watchEffect(async () => {
   const response = await fetch("https://fakestoreapi.com/products");
-  products = await response.json();
+  products.value = await response.json();
   loadingState.value = "success";
 });
 </script>
